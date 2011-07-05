@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="eStudent_schema" version="42" database="PostgreSQL" >
+	<comment>Database Schema for eStudent Application.</comment>
+	<schema name="eStudent" schemaname="eStudent" defo="y" >
+		<table name="students" >
+			<comment>A table for students.</comment>
+			<column name="id" type="bigserial" jt="-5" mandatory="y" >
+				<comment> <![CDATA[Primary key and internal identifier]]> </comment>
+			</column>
+			<column name="first_name" type="varchar" length="255" jt="12" mandatory="y" >
+				<comment> <![CDATA[First name of the student]]> </comment>
+			</column>
+			<column name="father_name" type="varchar" length="255" jt="12" mandatory="y" />
+			<index name="pk_students" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+	</schema>
+	<layout name="Default" >
+		<entity schema="eStudent" name="students" x="39" y="39" />
+		<group name="group_students" color="c4e0f9" >
+			<entity schema="eStudent" name="students" />
+		</group>
+	</layout>
+</project>
