@@ -7,18 +7,77 @@
 			<column name="id" type="bigserial" jt="-5" mandatory="y" >
 				<comment> <![CDATA[Primary key and internal identifier]]> </comment>
 			</column>
-			<column name="first_name" type="varchar" length="255" jt="12" mandatory="y" >
-				<comment> <![CDATA[First name of the student]]> </comment>
-			</column>
-			<column name="father_name" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="person_id" type="bigserial" jt="-5" mandatory="y" />
 			<index name="pk_students" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_students" unique="NORMAL" >
+				<column name="person_id" />
+			</index>
+			<constraint name="ck_unque_person_in_students" >
+				<string>unique(person_id)</string>
+			</constraint>
+			<fk name="fk_students_people" to_schema="eStudent" to_table="people" delete_action="CASCADE" update_action="CASCADE" >
+				<fk_column name="person_id" pk="id" />
+			</fk>
+		</table>
+		<table name="courses" >
+			<column name="id" type="bigserial" jt="-5" mandatory="y" />
+			<column name="course_number" type="varchar" length="50" jt="12" mandatory="y" />
+			<index name="pk_courses" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<constraint name="ck_unique_course_number" >
+				<string>unique(course_number)</string>
+			</constraint>
+		</table>
+		<table name="people" >
+			<column name="id" type="bigserial" jt="-5" mandatory="y" />
+			<column name="first_name" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="father_name" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="grandfather_name" type="varchar" length="255" jt="12" />
+			<column name="sex" type="varchar" length="1" jt="12" mandatory="y" >
+				<defo>&#039;F&#039;</defo>
+			</column>
+			<column name="birth_date" type="timestamp" jt="93" mandatory="y" />
+			<column name="nationality" type="int8" jt="-5" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<index name="pk_people" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_people" unique="NORMAL" >
+				<column name="nationality" />
+			</index>
+			<constraint name="ck_unique_person" >
+				<string>unique(first_name,father_name,grandfather_name)</string>
+				<comment> <![CDATA[Check uniqueness of a person by checking fullname]]> </comment>
+			</constraint>
+			<fk name="fk_people_countries" to_schema="eStudent" to_table="countries" delete_action="CASCADE" update_action="CASCADE" >
+				<fk_column name="nationality" pk="id" />
+			</fk>
+		</table>
+		<table name="countries" >
+			<column name="id" type="bigserial" jt="-5" mandatory="y" />
+			<column name="name" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="code" type="varchar" length="10" jt="12" mandatory="y" />
+			<column name="continent" type="varchar" length="255" jt="12" />
+			<index name="pk_countries" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
 		</table>
 	</schema>
+	<connector name="con_" database="PostgreSQL" port="0" />
 	<layout name="Default" >
-		<entity schema="eStudent" name="students" x="39" y="39" />
-		<group name="group_students" color="c4e0f9" >
+		<entity schema="eStudent" name="countries" x="374" y="33" />
+		<entity schema="eStudent" name="courses" x="33" y="165" />
+		<entity schema="eStudent" name="people" x="220" y="44" />
+		<entity schema="eStudent" name="students" x="44" y="66" />
+		<group name="PRIVATE_TABLES" color="c4e0f9" >
+			<entity schema="eStudent" name="people" />
+			<entity schema="eStudent" name="countries" />
+		</group>
+		<group name="STUDENTS" color="ffffcc" >
 			<entity schema="eStudent" name="students" />
 		</group>
 	</layout>
