@@ -2,67 +2,6 @@
 <project name="eStudent_schema" version="42" database="PostgreSQL" >
 	<comment>Database Schema for eStudent Application.</comment>
 	<schema name="eStudent" schemaname="eStudent" defo="y" >
-		<table name="students" >
-			<comment>A table for students.</comment>
-			<column name="id" type="bigserial" jt="-5" mandatory="y" >
-				<comment> <![CDATA[Primary key and internal identifier]]> </comment>
-			</column>
-			<column name="first_name" type="varchar" length="255" jt="12" mandatory="y" >
-				<comment> <![CDATA[First name of the student]]> </comment>
-			</column>
-			<column name="father_name" type="varchar" length="255" jt="12" mandatory="y" >
-				<comment> <![CDATA[Father Name of the student]]> </comment>
-			</column>
-			<column name="grand_father_name" type="varchar" length="255" jt="12" >
-				<comment> <![CDATA[Grand father of the student
-]]> </comment>
-			</column>
-			<column name="date_of _birth" type="date" jt="91" >
-				<comment> <![CDATA[Date of birth of a student]]> </comment>
-			</column>
-			<column name="sex" type="varchar" length="255" jt="12" >
-				<comment> <![CDATA[Sex of a student
-]]> </comment>
-			</column>
-			<column name="birth_place" type="varchar" length="255" jt="12" >
-				<comment> <![CDATA[Birth place of a student]]> </comment>
-			</column>
-			<column name="mother_name" type="varchar" length="255" jt="12" >
-				<comment> <![CDATA[Mother Name of a student]]> </comment>
-			</column>
-			<column name="id_number" type="varchar" length="255" jt="12" >
-				<comment> <![CDATA[Id Number of a student]]> </comment>
-			</column>
-			<column name="batch_year" type="int4" jt="4" >
-				<comment> <![CDATA[Batch Year of a student]]> </comment>
-			</column>
-			<column name="department" type="varchar" length="255" jt="12" >
-				<comment> <![CDATA[Department of a student]]> </comment>
-			</column>
-			<column name="year" type="int8" jt="-5" >
-				<comment> <![CDATA[current year]]> </comment>
-			</column>
-			<column name="dorm_number" type="int4" jt="4" >
-				<comment> <![CDATA[Dorm Number of a student]]> </comment>
-			</column>
-			<column name="campus_name" type="varchar" length="255" jt="12" >
-				<comment> <![CDATA[Campus Name, where the student is enrolled at]]> </comment>
-			</column>
-			<column name="student_address" type="int8" jt="-5" />
-			<index name="pk_students" unique="PRIMARY_KEY" >
-				<column name="id" />
-			</index>
-			<index name="idx_first_name" unique="NORMAL" >
-				<column name="first_name" />
-			</index>
-			<index name="pk_students_0" unique="UNIQUE" >
-				<column name="student_address" />
-			</index>
-			<fk name="fk_students" to_schema="eStudent" to_table="address" delete_action="CASCADE" update_action="CASCADE" >
-				<fk_column name="student_address" pk="id" />
-			</fk>
-		</table>
-		<table name="table_0" />
 		<table name="address" >
 			<column name="id" type="bigserial" jt="-5" mandatory="y" />
 			<column name="city" type="varchar" length="50" jt="12" />
@@ -71,18 +10,144 @@
 			<column name="woreda" type="varchar" length="50" jt="12" />
 			<column name="house_numebr" type="varchar" length="50" jt="12" />
 			<column name="telephone" type="varchar" length="50" jt="12" />
+			<column name="person_id" type="bigserial" jt="-5" >
+				<comment> <![CDATA[foreign key for person]]> </comment>
+			</column>
 			<index name="pk_address" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
+			<index name="pk_address_0" unique="UNIQUE" >
+				<column name="person_id" />
+			</index>
+		</table>
+		<table name="countries" >
+			<column name="id" type="bigserial" jt="-5" mandatory="y" />
+			<column name="name" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="code" type="varchar" length="10" jt="12" mandatory="y" />
+			<column name="continent" type="varchar" length="255" jt="12" />
+			<index name="pk_countries" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="courses" >
+			<column name="id" type="bigserial" jt="-5" mandatory="y" />
+			<column name="course_number" type="varchar" length="50" jt="12" mandatory="y" />
+			<index name="pk_courses" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<constraint name="ck_unique_course_number" >
+				<string>unique(course_number)</string>
+			</constraint>
+		</table>
+		<table name="people" >
+			<column name="id" type="bigserial" jt="-5" mandatory="y" />
+			<column name="first_name" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="father_name" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="grandfather_name" type="varchar" length="255" jt="12" />
+			<column name="sex" type="varchar" length="1" jt="12" mandatory="y" >
+				<defo>&#039;F&#039;</defo>
+			</column>
+			<column name="birth_date" type="timestamp" jt="93" mandatory="y" />
+			<column name="nationality" type="int8" jt="-5" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="birth_place" type="varchar" length="60" jt="12" >
+				<comment> <![CDATA[Birth Place of a person]]> </comment>
+			</column>
+			<index name="pk_people" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_people" unique="NORMAL" >
+				<column name="nationality" />
+			</index>
+			<constraint name="ck_unique_person" >
+				<string>unique(first_name,father_name,grandfather_name)</string>
+				<comment> <![CDATA[Check uniqueness of a person by checking fullname]]> </comment>
+			</constraint>
+			<fk name="fk_people_countries" to_schema="eStudent" to_table="countries" delete_action="CASCADE" update_action="CASCADE" >
+				<fk_column name="nationality" pk="id" />
+			</fk>
+			<fk name="fk_people" to_schema="eStudent" to_table="address" delete_action="CASCADE" update_action="CASCADE" >
+				<fk_column name="id" pk="person_id" />
+			</fk>
+		</table>
+		<table name="students" >
+			<comment>A table for students.</comment>
+			<column name="id" type="bigserial" jt="-5" mandatory="y" >
+				<comment> <![CDATA[Primary key and internal identifier]]> </comment>
+			</column>
+			<column name="person_id" type="bigserial" jt="-5" mandatory="y" />
+			<column name="id_number" type="varchar" length="255" jt="12" >
+				<comment> <![CDATA[Id Number of a student]]> </comment>
+			</column>
+			<column name="batch_year" type="int4" jt="4" >
+				<comment> <![CDATA[Batch Year of a student]]> </comment>
+			</column>
+			<column name="department_id" type="bigserial" jt="-5" >
+				<comment> <![CDATA[foreign key for department]]> </comment>
+			</column>
+			<column name="year" type="int8" jt="-5" >
+				<comment> <![CDATA[current year]]> </comment>
+			</column>
+			<column name="dorm_id" type="bigserial" jt="-5" >
+				<comment> <![CDATA[foreign key for Dorm]]> </comment>
+			</column>
+			<column name="campus_id" type="bigserial" jt="-5" >
+				<comment> <![CDATA[foreign key for campus]]> </comment>
+			</column>
+			<column name="year_joined" type="int4" jt="4" >
+				<comment> <![CDATA[the year the student joined the universty]]> </comment>
+			</column>
+			<column name="batch_id" type="bigserial" jt="-5" >
+				<comment> <![CDATA[foreign key for batch table]]> </comment>
+			</column>
+			<index name="pk_students" unique="PRIMARY_KEY" >
+				<comment>Campus Name, where the student is enrolled at</comment>
+				<column name="id" />
+			</index>
+			<index name="idx_students" unique="NORMAL" >
+				<column name="person_id" />
+			</index>
+			<index name="pk_students_0" unique="UNIQUE" >
+				<column name="batch_id" />
+			</index>
+			<constraint name="ck_unque_person_in_students" >
+				<string>unique(person_id)</string>
+			</constraint>
+			<fk name="fk_students_people" to_schema="eStudent" to_table="people" delete_action="CASCADE" update_action="CASCADE" >
+				<fk_column name="person_id" pk="id" />
+			</fk>
+		</table>
+		<table name="table_0" />
+		<table name="batch" >
+			<column name="id" type="bigserial" jt="-5" mandatory="y" />
+			<column name="batch_name" type="varchar" length="50" jt="12" />
+			<index name="pk_batch" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_batch" to_schema="eStudent" to_table="students" delete_action="CASCADE" update_action="CASCADE" >
+				<fk_column name="id" pk="batch_id" />
+			</fk>
 		</table>
 	</schema>
 	<connector name="con_" database="PostgreSQL" port="0" />
 	<layout name="Default" >
-		<entity schema="eStudent" name="address" x="242" y="77" />
-		<entity schema="eStudent" name="students" x="33" y="33" />
-		<group name="group_students" color="c4e0f9" >
-			<entity schema="eStudent" name="students" />
-			<entity schema="eStudent" name="address" />
+		<entity schema="eStudent" name="address" x="165" y="187" />
+		<entity schema="eStudent" name="batch" x="33" y="198" />
+		<entity schema="eStudent" name="countries" x="572" y="88" />
+		<entity schema="eStudent" name="courses" x="407" y="253" />
+		<entity schema="eStudent" name="people" x="418" y="99" />
+		<entity schema="eStudent" name="students" x="165" y="33" />
+		<group name="PRIVATE_TABLES" color="c4e0f9" >
+			<entity schema="eStudent" name="countries" />
+			<entity schema="eStudent" name="people" />
 		</group>
+		<group name="STUDENTS" color="ffffcc" >
+			<entity schema="eStudent" name="address" />
+			<entity schema="eStudent" name="students" />
+		</group>
+		<browser name="Browse_000" >
+			<browse_table schema="eStudent" entity="students" x="5" y="5" width="200" height="200" tabular="y" />
+		</browser>
 	</layout>
 </project>
