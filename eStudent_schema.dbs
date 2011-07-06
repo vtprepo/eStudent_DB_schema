@@ -11,15 +11,20 @@
 				<comment> <![CDATA[First name of the student]]> </comment>
 			</column>
 			<column name="father_name" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="sex" type="varchar" length="255" jt="12" />
 			<index name="pk_students" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
 		</table>
 	</schema>
+	<connector name="con_" database="PostgreSQL" port="0" />
 	<layout name="Default" >
-		<entity schema="eStudent" name="students" x="39" y="39" />
+		<entity schema="eStudent" name="students" x="33" y="33" />
 		<group name="group_students" color="c4e0f9" >
 			<entity schema="eStudent" name="students" />
 		</group>
+		<browser name="Browse_000" >
+			<browse_table schema="eStudent" entity="students" x="5" y="5" width="200" height="200" tabular="y" />
+		</browser>
 	</layout>
 </project>
