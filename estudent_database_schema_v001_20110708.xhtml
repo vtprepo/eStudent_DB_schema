@@ -1,0 +1,480 @@
+<?xml version='1.0' encoding='ISO-8859-1' standalone='yes'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN' 'http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' >
+<head>
+<title>Database documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF8"/>
+<style type='text/css'>
+	 #dbs {font-family:Tahoma,Dialog,Sans-Serif;font-size:11px;background:#fff;width:80%;border-collapse:collapse;text-align:left;margin:20px;}
+	 #dbs thead{background:#e6ecf9;}
+	 #dbs th{font-size:12px;font-weight:bold;color:#039;border-bottom:2px solid #6678b1;padding:7px 8px;}
+	 #dbs td{border-bottom:1px solid #ccc;color:#336;padding:3px 8px;white-space: pre;}
+	 td.subpart{font-weight:bold;background:#e6ecf9}
+	 td.name{background:#f2f5fb}
+	 #dbs tbody tr:hover td{color:#000;background:#fffcea;}
+</style>
+</head>
+
+<body>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'   width='598' height='536' viewbox='0 0 598 536' >
+<style type='text/css'>
+  text                { text-rendering: optimizeLegibility; fill:#444444; font-family: Tahoma,Trebuchet MS,Dialog,Arial; font-size:11px; }
+  text.coltype        { fill:#a9bdc6; font-size:10px; }
+  path                { stroke:#776c57; stroke-width:1.5; fill: none; }
+  rect.grp            { opacity:0.5; stroke:#c2ab83; stroke-width:1; }
+  rect.table          { fill:white; stroke:none; }
+  rect.tableborder    { shape-rendering:crispEdges;fill:none;stroke:#7292aa; stroke-width:1; }
+  line.tableborder    { shape-rendering:crispEdges;stroke:#7292aa; stroke-width:1; }
+  rect.callout        { shape-rendering:crispEdges;fill:#f7fbf7; stroke:none; }
+  rect.calloutborder  { shape-rendering:crispEdges;fill:none;stroke:#8d9380; stroke-width:1; }
+</style>
+<defs>
+  <linearGradient id='grTableHeader' x1='0' x2='0' y1='0' y2='1'>
+    <stop offset='0%' stop-color='#a7c4e7' />
+    <stop offset='50%' stop-color='#fafbfb' />
+    <stop offset='51%' stop-color='#c7e2f9' />
+    <stop offset='100%' stop-color='#f9fcff' />
+  </linearGradient>
+
+  <linearGradient id='imageBackground' gradientUnits='objectBoundingBox' gradientTransform='rotate(90)'>
+    <stop offset='0%' stop-color='white'/>
+    <stop offset='100%' stop-color='#c8e1f3'/>
+  </linearGradient>
+  <filter id='dropShadow' filterUnits='objectBoundingBox' x='-1.2' y='-1.2' width='6' height='6'>
+    <feGaussianBlur in='SourceAlpha' stdDeviation='2' />
+    <feComponentTransfer result='shadow'>
+      <feFuncA type='linear' slope='.7' intercept='0' />
+      </feComponentTransfer>
+    <feComposite in2='shadow' in='SourceGraphic'/>
+  </filter>
+  <radialGradient id='legendGradient' fx='5%' fy='5%' r='75%' spreadMethod='pad'>
+          <stop offset='0%' stop-color='#6985ff' stop-opacity='1'/> 
+          <stop offset='100%' stop-color='#1e2a5f' stop-opacity='1' /> 
+   </radialGradient>
+
+  <pattern id='hintPointerSV' patternUnits='userSpaceOnUse' x='0' y='0' width='13' height='13' viewBox='0 0 13 13' >
+      <path d='M 0,0 Q 7,7,0,13 Q 13,7,13,0' style='fill:#f7fbf7;stroke:#8d9380;' />
+  </pattern>
+
+  <pattern id='hintPointerSE' patternUnits='userSpaceOnUse' x='0' y='0' width='13' height='13' viewBox='0 0 13 13' >
+      <path d='M 0,0 Q 3,7,13,13 Q 7,7,13,0' style='fill:#f7fbf7;stroke:#8d9380;' />
+  </pattern>
+
+  <pattern id='hintPointerNV' patternUnits='userSpaceOnUse' x='0' y='0' width='13' height='13' viewBox='0 0 13 13' >
+      <path d='M 0,13 Q 7,7,0,0 Q 13,7,13,13' style='fill:#f7fbf7;stroke:#8d9380;' />
+  </pattern>
+
+  <pattern id='hintPointerNE' patternUnits='userSpaceOnUse' x='0' y='0' width='13' height='13' viewBox='0 0 13 13' >
+      <path d='M 0,13 Q 3,7,13,0 Q 7,7,13,13' style='fill:#f7fbf7;stroke:#8d9380;' />
+  </pattern>
+
+  <symbol id='pk' overflow='visible' >
+      <path d='M 5 6 A 3 3 0 1 1 7 6 L 8 7 L 7 8 L 8 9 L 7,10 L 6 11 L 5,10 L 5,6 z' style='fill:#f2e421;stroke-width:0.7;stroke:#5f3312;stroke-linejoin:round;' />
+  </symbol>
+
+  <symbol id='idx' overflow='visible' >
+      <path d='M 4,3 L 9,6 L 4,9 z' style='fill:#f2e421;stroke-width:0.7;stroke:#5f3312;stroke-linejoin:round;' />
+  </symbol>
+
+  <marker id='arrow' viewBox='0 0 6 6' refX='0' refY='3' markerUnits='strokeWidth' markerWidth='6' markerHeight='6' orient='auto'>
+    <path d='M 0,0 L 6, 3 L 0,6 z' style='fill:#666666; stroke-width:0px;' />
+  </marker>
+
+  <marker id='foot' viewBox='0 0 6 6' refX='6' refY='3' markerUnits='strokeWidth' markerWidth='6' markerHeight='6' orient='auto'>
+    <path d='M 0,3 L 13, 3 z' />
+  </marker>
+
+</defs>
+
+<script type='text/javascript'>
+  <![CDATA[
+    function hgText(evt){evt.target.setAttribute('style','text-decoration:underline;fill:blue;'); }
+    function uhgText(evt){evt.target.setAttribute('style','text-decoration:none;fill:black;'); }
+    function hgPath(evt){evt.target.setAttribute('style','stroke:blue;stroke-width:3;');}
+    function uhgPath(evt){evt.target.setAttribute('style','stroke:#776c57;stroke-width:1.5;');}
+  ]]>
+</script>
+
+<!-- ############### Desktop ############# -->
+<rect x='1' y='1' width='596' height='534' rx='6' ry='6' style='fill:url(#imageBackground); stroke:#7292aa; stroke-width:1;' />
+
+<!-- ############### Group 'COURSE_RELATED' ############# -->
+<rect class='grp' style='fill:#c4e0f9;' x='27' y='214' width='258' height='144' rx='7' ry='7'/>
+<text x='40' y='227'>COURSE_RELATED</text>
+
+<!-- ############### Group 'SHARED_TABLES' ############# -->
+<rect class='grp' style='fill:#c4e0f9;' x='300' y='19' width='271' height='378' rx='7' ry='7'/>
+<text x='313' y='32'>SHARED_TABLES</text>
+
+<!-- ############### Group 'STUDENT_RELATED' ############# -->
+<rect class='grp' style='fill:#ffffcc;' x='27' y='19' width='128' height='183' rx='7' ry='7'/>
+<text x='40' y='32'>STUDENT_RELATED</text>
+
+<!-- ############### Table 'address' ############# -->
+<rect class='table' x='312' y='228' width='117' height='143' rx='6' ry='6' />
+<path d='M 313 248 L 313 235 Q 313 229 319 229 L 422 229 Q 428 229 428 235 L 428 248 L313 248 ' style='fill:url(#grTableHeader); stroke:none;' />
+<a xlink:href='#address' title='address' ><text x='347' y='243' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>address</text></a>
+  <use id='pk' x='312' y='256' xlink:href='#pk'/><a xlink:href='#id' title='id bigserial'><text x='325' y='266' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>id</text></a>
+  <a xlink:href='#city' title='city varchar(50)'><text x='325' y='279' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>city</text></a>
+  <a xlink:href='#kifle_ketema' title='kifle_ketema varchar(50)'><text x='325' y='292' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>kifle_ketema</text></a>
+  <a xlink:href='#kebele' title='kebele varchar(50)'><text x='325' y='305' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>kebele</text></a>
+  <a xlink:href='#woreda' title='woreda varchar(50)'><text x='325' y='318' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>woreda</text></a>
+  <a xlink:href='#house_numebr' title='house_numebr varchar(50)'><text x='325' y='331' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>house_numebr</text></a>
+  <a xlink:href='#telephone' title='telephone varchar(50)'><text x='325' y='344' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>telephone</text></a>
+  <use id='idx' x='312' y='347' xlink:href='#idx'/><a xlink:href='#person_id' title='person_id bigserial foreign key for person'><text x='325' y='357' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>person_id</text></a>
+
+
+<rect class='tableborder' x='312' y='228' width='117' height='143' rx='6' ry='6' />
+<!-- ############### Table 'countries' ############# -->
+<rect class='table' x='481' y='137' width='78' height='91' rx='6' ry='6' />
+<path d='M 482 157 L 482 144 Q 482 138 488 138 L 552 138 Q 558 138 558 144 L 558 157 L482 157 ' style='fill:url(#grTableHeader); stroke:none;' />
+<a xlink:href='#countries' title='countries' ><text x='493' y='152' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>countries</text></a>
+  <use id='pk' x='481' y='165' xlink:href='#pk'/><a xlink:href='#id' title='id bigserial'><text x='494' y='175' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>id</text></a>
+  <a xlink:href='#name' title='name varchar(255)'><text x='494' y='188' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>name</text></a>
+  <a xlink:href='#code' title='code varchar(10)'><text x='494' y='201' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>code</text></a>
+  <a xlink:href='#continent' title='continent varchar(255)'><text x='494' y='214' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>continent</text></a>
+
+
+<rect class='tableborder' x='481' y='137' width='78' height='91' rx='6' ry='6' />
+<!-- ############### Table 'courses' ############# -->
+<rect class='table' x='182' y='228' width='91' height='104' rx='6' ry='6' />
+<path d='M 183 248 L 183 235 Q 183 229 189 229 L 266 229 Q 272 229 272 235 L 272 248 L183 248 ' style='fill:url(#grTableHeader); stroke:none;' />
+<a xlink:href='#courses' title='courses' ><text x='204' y='243' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>courses</text></a>
+  <use id='pk' x='182' y='256' xlink:href='#pk'/><a xlink:href='#id' title='id bigserial'><text x='195' y='266' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>id</text></a>
+  <a xlink:href='#code' title='code varchar(50) Course number (Course code) is a unique-human-readable identifier
+that is used to uniquely represent a course.
+Format : ABC-XXXX =&gt; Comp234'><text x='195' y='279' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>code</text></a>
+  <a xlink:href='#title' title='title varchar(255) Course title is a descriptive text that is used to give additional 
+information about the course'><text x='195' y='292' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>title</text></a>
+  <a xlink:href='#credit' title='credit int2 Credit given to this course interms of contact hours'><text x='195' y='305' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>credit</text></a>
+  <a xlink:href='#description' title='description text A textual description about the course'><text x='195' y='318' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>description</text></a>
+
+
+<rect class='tableborder' x='182' y='228' width='91' height='104' rx='6' ry='6' />
+<path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  title='fk_people_countries' d='M 442 143 L 468,143'  onmouseover='hgPath(evt);' onmouseout='uhgPath(evt);'  />
+
+<path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  title='fk_people' d='M 325 182 L 325,221'  onmouseover='hgPath(evt);' onmouseout='uhgPath(evt);'  />
+
+<!-- ############### Table 'people' ############# -->
+<rect class='table' x='312' y='33' width='130' height='143' rx='6' ry='6' />
+<path d='M 313 53 L 313 40 Q 313 34 319 34 L 435 34 Q 441 34 441 40 L 441 53 L313 53 ' style='fill:url(#grTableHeader); stroke:none;' />
+<a xlink:href='#people' title='people' ><text x='358' y='48' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>people</text></a>
+  <use id='pk' x='312' y='61' xlink:href='#pk'/><a xlink:href='#id' title='id bigserial'><text x='325' y='71' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>id</text></a>
+  <a xlink:href='#first_name' title='first_name varchar(255)'><text x='325' y='84' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>first_name</text></a>
+  <a xlink:href='#father_name' title='father_name varchar(255)'><text x='325' y='97' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>father_name</text></a>
+  <a xlink:href='#grandfather_name' title='grandfather_name varchar(255)'><text x='325' y='110' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>grandfather_name</text></a>
+  <a xlink:href='#sex' title='sex varchar(1)'><text x='325' y='123' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>sex</text></a>
+  <a xlink:href='#birth_date' title='birth_date timestamp'><text x='325' y='136' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>birth_date</text></a>
+  <use id='idx' x='312' y='139' xlink:href='#idx'/><a xlink:href='#nationality' title='nationality int8'><text x='325' y='149' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>nationality</text></a>
+  <a xlink:href='#birth_place' title='birth_place varchar(60) Birth Place of a person'><text x='325' y='162' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>birth_place</text></a>
+
+
+<rect class='tableborder' x='312' y='33' width='130' height='143' rx='6' ry='6' />
+<path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  title='fk_prerequisites_courses' d='M 156 247 L 169,247'  onmouseover='hgPath(evt);' onmouseout='uhgPath(evt);'  />
+
+<path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  title='fk_prerequisites_courses_prerequisite' d='M 156 260 L 169,260'  onmouseover='hgPath(evt);' onmouseout='uhgPath(evt);'  />
+
+<!-- ############### Table 'prerequisites' ############# -->
+<rect class='table' x='39' y='228' width='117' height='65' rx='6' ry='6' />
+<path d='M 40 248 L 40 235 Q 40 229 46 229 L 149 229 Q 155 229 155 235 L 155 248 L40 248 ' style='fill:url(#grTableHeader); stroke:none;' />
+<a xlink:href='#prerequisites' title='Course prerequisites' ><text x='59' y='243' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>prerequisites</text></a>
+  <use id='pk' x='39' y='256' xlink:href='#pk'/><a xlink:href='#course_id' title='course_id int8'><text x='52' y='266' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>course_id</text></a>
+  <use id='pk' x='39' y='269' xlink:href='#pk'/><a xlink:href='#prerequisite_id' title='prerequisite_id int8'><text x='52' y='279' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>prerequisite_id</text></a>
+
+
+<rect class='tableborder' x='39' y='228' width='117' height='65' rx='6' ry='6' />
+<path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  title='fk_students_people' d='M 143 52 L 299,52'  onmouseover='hgPath(evt);' onmouseout='uhgPath(evt);'  />
+
+<!-- ############### Table 'students' ############# -->
+<rect class='table' x='39' y='33' width='104' height='143' rx='6' ry='6' />
+<path d='M 40 53 L 40 40 Q 40 34 46 34 L 136 34 Q 142 34 142 40 L 142 53 L40 53 ' style='fill:url(#grTableHeader); stroke:none;' />
+<a xlink:href='#students' title='A table for students.' ><text x='66' y='48' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>students</text></a>
+  <use id='pk' x='39' y='61' xlink:href='#pk'/><a xlink:href='#id' title='id bigserial Primary key and internal identifier'><text x='52' y='71' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>id</text></a>
+  <use id='idx' x='39' y='74' xlink:href='#idx'/><a xlink:href='#person_id' title='person_id bigserial'><text x='52' y='84' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>person_id</text></a>
+  <a xlink:href='#id_number' title='id_number varchar(255) Id Number of a student'><text x='52' y='97' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>id_number</text></a>
+  <a xlink:href='#department_id' title='department_id bigserial foreign key for department'><text x='52' y='110' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>department_id</text></a>
+  <a xlink:href='#year' title='year int8 current year'><text x='52' y='123' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>year</text></a>
+  <a xlink:href='#dorm_id' title='dorm_id bigserial foreign key for Dorm'><text x='52' y='136' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>dorm_id</text></a>
+  <a xlink:href='#campus_id' title='campus_id bigserial foreign key for campus'><text x='52' y='149' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>campus_id</text></a>
+  <a xlink:href='#joined_date' title='joined_date int4 The date that the student joined the university'><text x='52' y='162' onmouseover='hgText(evt);' onmouseout='uhgText(evt);'>joined_date</text></a>
+
+
+<rect class='tableborder' x='39' y='33' width='104' height='143' rx='6' ry='6' />
+<g transform='translate(318,416)'>  <rect x='10' y='10' width='240' height='45' rx='6' ry='6' style='fill:url(#legendGradient);' />
+  <text x='25' y='22' style='fill:white;' >Project eStudent_schema</text>
+  <text x='25' y='36' style='fill:white;' >Layout estudent_database_layout</text>
+  <a xlink:href='http://www.dbschema.com'>
+    <text x='100' y='50' style='fill:white;' >build using DbSchema</text>
+  </a>
+</g>
+
+</svg>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='address'>Table address</a> <br/> </th></tr>
+</thead>
+<tbody>
+<tr><td class='name'><a name='id'>id</a></td>
+<td> bigserial    NOT NULL   </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='city'>city</a></td>
+<td> varchar( 50 )     </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='kifle_ketema'>kifle_ketema</a></td>
+<td> varchar( 50 )     </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='kebele'>kebele</a></td>
+<td> varchar( 50 )     </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='woreda'>woreda</a></td>
+<td> varchar( 50 )     </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='house_numebr'>house_numebr</a></td>
+<td> varchar( 50 )     </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='telephone'>telephone</a></td>
+<td> varchar( 50 )     </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='person_id'>person_id</a></td>
+<td> bigserial     </td>
+<td> foreign key for person </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+<tr><td class='name'>pk_address primary key</td>
+<td> ( id) </td><td>  </td>
+</tr>
+<tr><td class='name'>pk_address_0 unique</td>
+<td> ( person_id) </td><td>  </td>
+</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='countries'>Table countries</a> <br/> </th></tr>
+</thead>
+<tbody>
+<tr><td class='name'><a name='id'>id</a></td>
+<td> bigserial    NOT NULL   </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='name'>name</a></td>
+<td> varchar( 255 )    NOT NULL   </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='code'>code</a></td>
+<td> varchar( 10 )    NOT NULL   </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='continent'>continent</a></td>
+<td> varchar( 255 )     </td>
+<td>  </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+<tr><td class='name'>pk_countries primary key</td>
+<td> ( id) </td><td>  </td>
+</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='courses'>Table courses</a> <br/> </th></tr>
+</thead>
+<tbody>
+<tr><td class='name'><a name='id'>id</a></td>
+<td> bigserial    NOT NULL   </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='code'>code</a></td>
+<td> varchar( 50 )    NOT NULL   </td>
+<td> Course number (Course code) is a unique-human-readable identifier
+that is used to uniquely represent a course.
+Format : ABC-XXXX =&gt; Comp234 </td>
+</tr>
+<tr><td class='name'><a name='title'>title</a></td>
+<td> varchar( 255 )     </td>
+<td> Course title is a descriptive text that is used to give additional 
+information about the course </td>
+</tr>
+<tr><td class='name'><a name='credit'>credit</a></td>
+<td> int2    NOT NULL   </td>
+<td> Credit given to this course interms of contact hours </td>
+</tr>
+<tr><td class='name'><a name='description'>description</a></td>
+<td> text     </td>
+<td> A textual description about the course </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+<tr><td class='name'>pk_courses primary key</td>
+<td> ( id) </td><td>  </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Constraints</b></td></tr>
+<tr><td> ck_unique_course_number </td><td> unique(course_number) </td><td> </td></tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='people'>Table people</a> <br/> </th></tr>
+</thead>
+<tbody>
+<tr><td class='name'><a name='id'>id</a></td>
+<td> bigserial    NOT NULL   </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='first_name'>first_name</a></td>
+<td> varchar( 255 )    NOT NULL   </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='father_name'>father_name</a></td>
+<td> varchar( 255 )    NOT NULL   </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='grandfather_name'>grandfather_name</a></td>
+<td> varchar( 255 )     </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='sex'>sex</a></td>
+<td> varchar( 1 )    NOT NULL    DEFO 'F' </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='birth_date'>birth_date</a></td>
+<td> timestamp    NOT NULL   </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='nationality'>nationality</a></td>
+<td> int8    NOT NULL    DEFO 1 </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='birth_place'>birth_place</a></td>
+<td> varchar( 60 )     </td>
+<td> Birth Place of a person </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+<tr><td class='name'>pk_people primary key</td>
+<td> ( id) </td><td>  </td>
+</tr>
+<tr><td class='name'>idx_people </td>
+<td> ( nationality) </td><td>  </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Foreign Keys</b></td></tr>
+<tr>
+<td class='name'>fk_people_countries</td><td > (  nationality  ) ref <a href='#countries'>countries</a> ( id ) </td>
+<td>  </td>
+</tr>
+<tr>
+<td class='name'>fk_people</td><td > (  id  ) ref <a href='#address'>address</a> ( person_id ) </td>
+<td>  </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Constraints</b></td></tr>
+<tr><td> ck_unique_person </td><td> unique(first_name,father_name,grandfather_name) </td><td> Check uniqueness of a person by checking fullname</td></tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='prerequisites'>Table prerequisites</a> <br/>Course prerequisites </th></tr>
+</thead>
+<tbody>
+<tr><td class='name'><a name='course_id'>course_id</a></td>
+<td> int8    NOT NULL   </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='prerequisite_id'>prerequisite_id</a></td>
+<td> int8    NOT NULL   </td>
+<td>  </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+<tr><td class='name'>idx_prerequisites </td>
+<td> ( course_id) </td><td>  </td>
+</tr>
+<tr><td class='name'>idx_prerequisites </td>
+<td> ( prerequisite_id) </td><td>  </td>
+</tr>
+<tr><td class='name'>idx_prerequisites_0 primary key</td>
+<td> ( course_id, prerequisite_id) </td><td>  </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Foreign Keys</b></td></tr>
+<tr>
+<td class='name'>fk_prerequisites_courses</td><td > (  course_id  ) ref <a href='#courses'>courses</a> ( id ) </td>
+<td>  </td>
+</tr>
+<tr>
+<td class='name'>fk_prerequisites_courses_prerequisite</td><td > (  prerequisite_id  ) ref <a href='#courses'>courses</a> ( id ) </td>
+<td>  </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Constraints</b></td></tr>
+<tr><td> ck_unique_course_set </td><td> unique(course_id,prerequisite_id) </td><td> </td></tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table id='dbs' >
+<thead>
+<tr><th colspan='3'><a name='students'>Table students</a> <br/>A table for students. </th></tr>
+</thead>
+<tbody>
+<tr><td class='name'><a name='id'>id</a></td>
+<td> bigserial    NOT NULL   </td>
+<td> Primary key and internal identifier </td>
+</tr>
+<tr><td class='name'><a name='person_id'>person_id</a></td>
+<td> bigserial    NOT NULL   </td>
+<td>  </td>
+</tr>
+<tr><td class='name'><a name='id_number'>id_number</a></td>
+<td> varchar( 255 )     </td>
+<td> Id Number of a student </td>
+</tr>
+<tr><td class='name'><a name='department_id'>department_id</a></td>
+<td> bigserial     </td>
+<td> foreign key for department </td>
+</tr>
+<tr><td class='name'><a name='year'>year</a></td>
+<td> int8     </td>
+<td> current year </td>
+</tr>
+<tr><td class='name'><a name='dorm_id'>dorm_id</a></td>
+<td> bigserial     </td>
+<td> foreign key for Dorm </td>
+</tr>
+<tr><td class='name'><a name='campus_id'>campus_id</a></td>
+<td> bigserial     </td>
+<td> foreign key for campus </td>
+</tr>
+<tr><td class='name'><a name='joined_date'>joined_date</a></td>
+<td> int4     </td>
+<td> The date that the student joined the university </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Indexes</b></td></tr>
+<tr><td class='name'>pk_students primary key</td>
+<td> ( id) </td><td> Campus Name, where the student is enrolled at </td>
+</tr>
+<tr><td class='name'>idx_students </td>
+<td> ( person_id) </td><td>  </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Foreign Keys</b></td></tr>
+<tr>
+<td class='name'>fk_students_people</td><td > (  person_id  ) ref <a href='#people'>people</a> ( id ) </td>
+<td>  </td>
+</tr>
+<tr><td colspan='3' class='subpart'><b>Constraints</b></td></tr>
+<tr><td> ck_unque_person_in_students </td><td> unique(person_id) </td><td> </td></tr>
+</tbody>
+</table>
+
+</body></html>

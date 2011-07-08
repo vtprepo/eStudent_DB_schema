@@ -31,7 +31,21 @@
 		</table>
 		<table name="courses" >
 			<column name="id" type="bigserial" jt="-5" mandatory="y" />
-			<column name="course_number" type="varchar" length="50" jt="12" mandatory="y" />
+			<column name="code" type="varchar" length="50" jt="12" mandatory="y" >
+				<comment> <![CDATA[Course number (Course code) is a unique-human-readable identifier
+that is used to uniquely represent a course.
+Format : ABC-XXXX => Comp234]]> </comment>
+			</column>
+			<column name="title" type="varchar" length="255" jt="12" >
+				<comment> <![CDATA[Course title is a descriptive text that is used to give additional 
+information about the course]]> </comment>
+			</column>
+			<column name="credit" type="int2" jt="5" mandatory="y" >
+				<comment> <![CDATA[Credit given to this course interms of contact hours]]> </comment>
+			</column>
+			<column name="description" type="text" jt="12" >
+				<comment> <![CDATA[A textual description about the course]]> </comment>
+			</column>
 			<index name="pk_courses" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -80,14 +94,8 @@
 			<column name="id_number" type="varchar" length="255" jt="12" >
 				<comment> <![CDATA[Id Number of a student]]> </comment>
 			</column>
-			<column name="batch_year" type="int4" jt="4" >
-				<comment> <![CDATA[Batch Year of a student]]> </comment>
-			</column>
 			<column name="department_id" type="bigserial" jt="-5" >
 				<comment> <![CDATA[foreign key for department]]> </comment>
-			</column>
-			<column name="year" type="int8" jt="-5" >
-				<comment> <![CDATA[current year]]> </comment>
 			</column>
 			<column name="dorm_id" type="bigserial" jt="-5" >
 				<comment> <![CDATA[foreign key for Dorm]]> </comment>
@@ -95,11 +103,8 @@
 			<column name="campus_id" type="bigserial" jt="-5" >
 				<comment> <![CDATA[foreign key for campus]]> </comment>
 			</column>
-			<column name="year_joined" type="int4" jt="4" >
-				<comment> <![CDATA[the year the student joined the universty]]> </comment>
-			</column>
-			<column name="batch_id" type="bigserial" jt="-5" >
-				<comment> <![CDATA[foreign key for batch table]]> </comment>
+			<column name="joined_date" type="int4" jt="4" >
+				<comment> <![CDATA[The date that the student joined the university]]> </comment>
 			</column>
 			<index name="pk_students" unique="PRIMARY_KEY" >
 				<comment>Campus Name, where the student is enrolled at</comment>
@@ -107,9 +112,6 @@
 			</index>
 			<index name="idx_students" unique="NORMAL" >
 				<column name="person_id" />
-			</index>
-			<index name="pk_students_0" unique="UNIQUE" >
-				<column name="batch_id" />
 			</index>
 			<constraint name="ck_unque_person_in_students" >
 				<string>unique(person_id)</string>
@@ -119,35 +121,83 @@
 			</fk>
 		</table>
 		<table name="table_0" />
-		<table name="batch" >
-			<column name="id" type="bigserial" jt="-5" mandatory="y" />
-			<column name="batch_name" type="varchar" length="50" jt="12" />
-			<index name="pk_batch" unique="PRIMARY_KEY" >
-				<column name="id" />
+		<table name="prerequisites" >
+			<comment>Course prerequisites</comment>
+			<column name="course_id" type="int8" jt="-5" mandatory="y" />
+			<column name="prerequisite_id" type="int8" jt="-5" mandatory="y" />
+			<index name="idx_prerequisites" unique="NORMAL" >
+				<column name="course_id" />
 			</index>
-			<fk name="fk_batch" to_schema="eStudent" to_table="students" delete_action="CASCADE" update_action="CASCADE" >
-				<fk_column name="id" pk="batch_id" />
+			<index name="idx_prerequisites" unique="NORMAL" >
+				<column name="prerequisite_id" />
+			</index>
+			<index name="idx_prerequisites_0" unique="PRIMARY_KEY" >
+				<column name="course_id" />
+				<column name="prerequisite_id" />
+			</index>
+			<constraint name="ck_unique_course_set" >
+				<string>unique(course_id,prerequisite_id)</string>
+			</constraint>
+			<fk name="fk_prerequisites_courses" to_schema="eStudent" to_table="courses" delete_action="CASCADE" update_action="CASCADE" >
+				<fk_column name="course_id" pk="id" />
+			</fk>
+			<fk name="fk_prerequisites_courses_prerequisite" to_schema="eStudent" to_table="courses" delete_action="CASCADE" update_action="CASCADE" >
+				<fk_column name="prerequisite_id" pk="id" />
 			</fk>
 		</table>
+		<table name="student_class_years" >
+			<column name="student_id" type="int8" jt="-5" mandatory="y" />
+			<column name="academic_year" type="int8" jt="-5" mandatory="y" />
+			<column name="class_year_id" type="int8" jt="-5" mandatory="y" />
+			<index name="idx_student_class_years" unique="NORMAL" >
+				<column name="class_year_id" />
+			</index>
+			<index name="idx_student_class_years_0" unique="NORMAL" >
+				<column name="student_id" />
+			</index>
+			<fk name="fk_student_class_years_year" to_schema="eStudent" to_table="class_years" delete_action="CASCADE" update_action="CASCADE" >
+				<fk_column name="class_year_id" pk="id" />
+			</fk>
+			<fk name="fk_student_class_years_student" to_schema="eStudent" to_table="students" delete_action="CASCADE" update_action="CASCADE" >
+				<fk_column name="student_id" pk="id" />
+			</fk>
+		</table>
+		<table name="class_years" >
+			<column name="id" type="bigserial" jt="-5" mandatory="y" />
+			<column name="year_code" type="varchar" length="5" jt="12" mandatory="y" />
+			<column name="title" type="varchar" length="50" jt="12" mandatory="y" />
+			<index name="pk_class_years" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
 	</schema>
-	<connector name="con_" database="PostgreSQL" port="0" />
-	<layout name="Default" >
-		<entity schema="eStudent" name="address" x="165" y="187" />
-		<entity schema="eStudent" name="batch" x="33" y="198" />
-		<entity schema="eStudent" name="countries" x="572" y="88" />
-		<entity schema="eStudent" name="courses" x="407" y="253" />
-		<entity schema="eStudent" name="people" x="418" y="99" />
-		<entity schema="eStudent" name="students" x="165" y="33" />
-		<group name="PRIVATE_TABLES" color="c4e0f9" >
-			<entity schema="eStudent" name="countries" />
-			<entity schema="eStudent" name="people" />
+	<connector name="con_" database="PostgreSQL" port="0" schema_mapping="" />
+	<layout name="estudent_database_layout" show_column_type="y" show_schema_name="y" >
+		<entity schema="eStudent" name="address" x="780" y="39" />
+		<entity schema="eStudent" name="class_years" x="52" y="39" />
+		<entity schema="eStudent" name="countries" x="767" y="195" />
+		<entity schema="eStudent" name="courses" x="247" y="312" />
+		<entity schema="eStudent" name="people" x="481" y="39" />
+		<entity schema="eStudent" name="prerequisites" x="52" y="312" />
+		<entity schema="eStudent" name="student_class_years" x="39" y="182" />
+		<entity schema="eStudent" name="students" x="234" y="39" />
+		<group name="COURSE_RELATED" color="c4e0f9" >
+			<entity schema="eStudent" name="prerequisites" />
+			<entity schema="eStudent" name="courses" />
 		</group>
-		<group name="STUDENTS" color="ffffcc" >
+		<group name="SHARED_TABLES" color="c4e0f9" >
+			<comment>Common data for most models will be stored in a parent child structure</comment>
+			<entity schema="eStudent" name="people" />
+			<entity schema="eStudent" name="countries" />
 			<entity schema="eStudent" name="address" />
+		</group>
+		<group name="STUDENT_RELATED" color="ffffcc" >
 			<entity schema="eStudent" name="students" />
+			<entity schema="eStudent" name="class_years" />
+			<entity schema="eStudent" name="student_class_years" />
 		</group>
 		<browser name="Browse_000" >
-			<browse_table schema="eStudent" entity="students" x="5" y="5" width="200" height="200" tabular="y" />
+			<browse_table schema="eStudent" entity="students" x="5" y="5" width="200" height="200" />
 		</browser>
 	</layout>
 </project>
